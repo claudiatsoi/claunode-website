@@ -25,7 +25,7 @@ export default function About() {
   return (
     <section id="about" className="py-24 scroll-mt-20 bg-background px-4">
       <div className="max-w-4xl mx-auto space-y-12">
-        <motion.h2 文字 
+        <motion.h2
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
