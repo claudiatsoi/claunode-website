@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, FormEvent } from 'react';
-import { Mail, Github, Linkedin, Send, User, MessageSquare, AtSign } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, User, MessageSquare, AtSign, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '../lib/supabaseClient';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -11,12 +12,38 @@ export default function Contact() {
     email: '',
     message: ''
   });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const subject = `Contact form submission from ${formData.name}`;
-    const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
-    window.location.href = `mailto:contact@claunode.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setStatus('submitting');
+    setErrorMessage('');
+
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([
+          { 
+            name: formData.name, 
+            email: formData.email, 
+            message: formData.message,
+            created_at: new Date().toISOString()
+          }
+        ]);
+
+      if (error) throw error;
+
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      setStatus('error');
+      setErrorMessage(error.message || 'Something went wrong. Please try again.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -162,11 +189,47 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-foreground text-background font-bold py-4 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 group"
+                disabled={status === 'submitting'}
+                className="w-full bg-foreground text-background font-bold py-4 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
-                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {status === 'submitting' ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
+
+              <AnimatePresence>
+                {status === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-900"
+                  >
+                    <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                    <p className="text-sm">Message sent successfully! I'll get back to you soon.</p>
+                  </motion.div>
+                )}
+
+                {status === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-900"
+                  >
+                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    <p className="text-sm">{errorMessage}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </form>
           </motion.div>
         </div>
