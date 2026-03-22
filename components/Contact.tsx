@@ -1,70 +1,176 @@
 'use client';
 
-import React from 'react';
-import { Mail, Github, Linkedin } from 'lucide-react';
+import React, { useState, FormEvent } from 'react';
+import { Mail, Github, Linkedin, Send, User, MessageSquare, AtSign } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const subject = `Contact form submission from ${formData.name}`;
+    const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
+    window.location.href = `mailto:contact@claunode.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
   return (
     <section id="contact" className="py-24 scroll-mt-20 bg-background px-4">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto text-center space-y-12"
-      >
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Get in Touch</h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
-          I&apos;m always open to discussing new projects, creative ideas or opportunities to be part of your visions.
-        </p>
+      <div className="max-w-6xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16 space-y-4"
+        >
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">Get in Touch</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            I&apos;m always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+          </p>
+        </motion.div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-8 py-8 items-center">
-          <Link 
-            href="mailto:contact@claunode.com"
-            className="flex flex-col items-center gap-4 group p-8 rounded-2xl hover:bg-secondary/50 transition-colors duration-300 w-full sm:w-64"
+        <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-start">
+          {/* Contact Info & Socials */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="space-y-8"
           >
-            <motion.div 
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="bg-primary/10 p-4 rounded-full group-hover:bg-primary/20 transition-colors"
-            >
-              <Mail className="h-8 w-8 text-primary" />
-            </motion.div>
-            <span className="font-medium text-foreground">Email Me</span>
-          </Link>
+            <div className="prose prose-lg dark:prose-invert">
+              <h3 className="text-2xl font-semibold mb-4 text-foreground">Let's Connect</h3>
+              <p className="text-muted-foreground">
+                Whether you have a question, a project proposal, or just want to say hi, feel free to drop me a line.
+              </p>
+            </div>
 
-          <Link 
-            href="https://www.linkedin.com/in/man-yee-claudia-tsoi/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-4 group p-8 rounded-2xl hover:bg-secondary/50 transition-colors duration-300 w-full sm:w-64"
-          >
-            <motion.div 
-               whileHover={{ scale: 1.1, rotate: -5 }}
-               className="bg-blue-500/10 p-4 rounded-full group-hover:bg-blue-500/20 transition-colors"
-            >
-              <Linkedin className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-            </motion.div>
-            <span className="font-medium text-foreground">LinkedIn</span>
-          </Link>
+            <div className="grid gap-6">
+              <Link 
+                href="mailto:contact@claunode.com"
+                className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card/50 hover:bg-secondary/50 transition-colors group"
+              >
+                <div className="bg-primary/10 p-3 rounded-lg group-hover:scale-110 transition-transform">
+                  <Mail className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Email</p>
+                  <p className="text-foreground font-medium">contact@claunode.com</p>
+                </div>
+              </Link>
+              
+              <Link 
+                href="https://www.linkedin.com/in/man-yee-claudia-tsoi/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card/50 hover:bg-secondary/50 transition-colors group"
+              >
+                <div className="bg-blue-500/10 p-3 rounded-lg group-hover:scale-110 transition-transform">
+                  <Linkedin className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">LinkedIn</p>
+                  <p className="text-primary font-medium hover:underline">Connect on LinkedIn</p>
+                </div>
+              </Link>
 
-          <Link 
-            href="https://github.com/claudiatsoi"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-4 group p-8 rounded-2xl hover:bg-secondary/50 transition-colors duration-300 w-full sm:w-64"
+              <Link 
+                href="https://github.com/claudiatsoi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card/50 hover:bg-secondary/50 transition-colors group"
+              >
+                <div className="bg-gray-800/10 p-3 rounded-lg group-hover:scale-110 transition-transform dark:bg-white/10">
+                  <Github className="h-6 w-6 text-gray-900 dark:text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">GitHub</p>
+                  <p className="text-foreground font-medium hover:underline">Follow on GitHub</p>
+                </div>
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="bg-card p-8 rounded-2xl border border-border shadow-sm"
           >
-            <motion.div 
-               whileHover={{ scale: 1.1, rotate: 5 }}
-               className="bg-gray-800/10 p-4 rounded-full group-hover:bg-gray-800/20 transition-colors dark:bg-white/10 dark:group-hover:bg-white/20"
-            >
-              <Github className="h-8 w-8 text-gray-900 dark:text-white" />
-            </motion.div>
-            <span className="font-medium text-foreground">GitHub</span>
-          </Link>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label htmlFor="name" className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <User className="w-4 h-4" /> Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <AtSign className="w-4 h-4" /> Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your.email@example.com"
+                  className="w-full px-4 py-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4" /> Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="How can I help you?"
+                  className="w-full px-4 py-3 rounded-lg border border-input bg-background resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-foreground text-background font-bold py-4 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 group"
+              >
+                Send Message
+                <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </form>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
