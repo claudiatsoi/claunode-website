@@ -44,7 +44,7 @@ const projects: Project[] = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 bg-secondary/50 px-4">
+    <section id="projects" className="py-24 scroll-mt-20 bg-secondary/50 px-4">
       <div className="max-w-6xl mx-auto space-y-12">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
