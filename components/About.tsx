@@ -11,7 +11,7 @@ const roles = [
   },
   {
     role: "Vibe Coder",
-    focus: "New Business Ideas",
+    focus: "New Business Ideas & Full-Stack Development",
     location: "Based in Hong Kong"
   },
   {
