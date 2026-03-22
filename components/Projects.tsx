@@ -29,9 +29,9 @@ const projects: Project[] = [
   },
   {
     title: "Online Education Competition",
-    description: "An educational platform designed for hosting and managing online competitions effectively. Currently under active development.",
+    description: "An educational platform designed for hosting and managing online competitions effectively. Built with Supabase.",
     link: "https://gogo.claunode.com/",
-    tags: ["Education", "Platform", "Web App"]
+    tags: ["Supabase", "Education", "Platform"]
     // Add image: "/path/to/screencap.png" when available
   },
   {
