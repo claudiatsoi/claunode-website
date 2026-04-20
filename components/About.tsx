@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const roles = [
   {
     role: "Account & Project Manager",
-    focus: "Event SaaS Project Management",
+    focus: "Key Account Management, BD Developement and Event Management",
     location: "Based in Hong Kong"
   },
   {
@@ -32,7 +32,7 @@ export default function About() {
           transition={{ duration: 0.5 }}
           className="text-3xl md:text-4xl font-bold tracking-tight text-foreground"
         >
-          About Me
+          About me
         </motion.h2>
         
         <motion.div 
@@ -43,13 +43,13 @@ export default function About() {
           className="prose prose-lg dark:prose-invert text-muted-foreground leading-relaxed max-w-none"
         >
           <p className="mb-6">
-            Hi, I&apos;m Claudia. I&apos;m a multifaceted professional combining expertise in project management with a passion for web development and linguistics.
+            Multifaceted professional combining expertise in project management with a passion for web development and linguistics. Based in <strong>Hong Kong</strong>.
           </p>
           <p className="mb-6">
-            As the founder of <strong>CantOne Culture</strong>, I&apos;ve led initiatives to bridge communication gaps through language education. My technical journey is driven by a desire to build intuitive, user-centric solutions that make a real impact.
+            Currently working as an <strong>Account &amp; Project Manager</strong> in Event SaaS. Founder of <strong>CantOne Culture</strong>, leading initiatives to bridge communication gaps through Cantonese language education.
           </p>
           <p>
-            When I&apos;m not coding or managing projects, you can find me exploring new technologies, tutoring languages, or working on community-driven initiatives like AM.Pause.
+            Background in <strong>Neuroscience &amp; Linguistics</strong>, with a drive to build intuitive, user-centric technical solutions.
           </p>
         </motion.div>
 
@@ -78,6 +78,35 @@ export default function About() {
             </motion.div>
           ))}
         </div>
+
+        {/* Skills */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="pt-8 border-t border-border space-y-6"
+        >
+          <h3 className="text-xl font-semibold text-foreground">Skills</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground">
+            <div>
+              <p className="font-medium text-foreground mb-2">Project & Account Management</p>
+              <p>Event SaaS · Stakeholder Communication · Agile workflows</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground mb-2">Web Development</p>
+              <p>Next.js · React · TypeScript · Tailwind CSS · Supabase · Firebase</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground mb-2">Languages</p>
+              <p>English · Cantonese · Mandarin</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground mb-2">Education</p>
+              <p>Neuroscience &amp; Linguistics</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

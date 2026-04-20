@@ -46,7 +46,7 @@ export default function Hero() {
             href="#projects" 
             className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-foreground text-background font-medium hover:opacity-90 transition-opacity"
           >
-            See What I&apos;m Building
+            View My Projects
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
           <Link 

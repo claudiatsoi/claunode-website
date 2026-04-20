@@ -10,21 +10,17 @@ interface Project {
   description: string;
   link?: string;
   repo?: string;
+  ctaText?: string;
   tags: string[];
   image?: string; // Optional image path
 }
 
 const projects: Project[] = [
   {
-    title: "AM.Pause",
-    description: "A community initiative focused on creating meaningful pauses in everyday life. Built with React and Firebase.",
-    link: "https://www.am-pause.com", // Placeholder
-    tags: ["Community", "React", "Frontend"]
-  },
-  {
     title: "Digital Name Card",
-    description: "A modern networking tool designed to replace physical business cards with dynamic, shareable digital profiles.",
-    link: "https://name-card.claunode.com",
+    description: "A modern networking tool that replaces physical business cards with dynamic, shareable digital profiles, inviting viewers to create their own. It was used in the Marketing Pulse for EventX business development.",
+    link: "https://name-card.claunode.com/user/claudia",
+    ctaText: "View my Business Card and Create Your Own!",
     tags: ["Networking", "Next.js", "Vercel"]
   },
   {
@@ -53,9 +49,9 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="space-y-4 text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Current Projects</h2>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Projects</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Explore what I&apos;ve been working on lately.
+            A selection of things I&apos;ve built.
           </p>
         </motion.div>
 
@@ -69,19 +65,13 @@ export default function Projects() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group relative border border-border bg-background rounded-2xl p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
             >
-              {project.image ? (
+              {project.image && (
                 <div className="w-full h-48 rounded-lg mb-6 overflow-hidden bg-gray-100">
-                  <img 
-                    src={project.image} 
+                  <img
+                    src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                </div>
-              ) : (
-                <div className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 w-full h-48 rounded-lg mb-6 flex items-center justify-center text-4xl group-hover:scale-[1.02] transition-transform duration-300">
-                  <div className="text-muted-foreground opacity-30 select-none">
-                    {project.title.substring(0, 2).toUpperCase()}
-                  </div>
                 </div>
               )}
               
@@ -107,7 +97,7 @@ export default function Projects() {
                   {project.link && (
                     <Link href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center text-sm font-medium text-foreground hover:text-primary transition-colors">
                       <ExternalLink className="mr-2 h-4 w-4" />
-                      Visit Site
+                      {project.ctaText ?? "Visit Site"}
                     </Link>
                   )}
                   {project.repo && (
