@@ -79,6 +79,23 @@ export default function About() {
           ))}
         </div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="flex justify-start"
+        >
+          <a
+            href="https://linkedin.com/in/man-yee-claudia-tsoi/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-foreground/20 hover:bg-foreground/5 transition-colors font-medium text-foreground"
+          >
+            View more on LinkedIn
+          </a>
+        </motion.div>
+
         {/* Skills */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
